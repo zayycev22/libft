@@ -1,4 +1,5 @@
 #include "libft.h"
+#include <stdio.h>
 int	count_n(int n)
 {
 	int	cnt;
@@ -32,30 +33,67 @@ void	reverse(char *a)
 	}
 }
 
+int	checks(int *n, char *s, int *i)
+{
+	int		check;
+	int		check2;
+
+	check = 0;
+	check2 = 0;
+	if (*n < 0)
+	{
+		if (*n == -2147483648)
+		{
+			*n = *n + 1;
+			check2 = 1;
+		}
+		s[count_n(*n) - 1] = '-';
+		*n = *n * -1;
+		check = 1;
+	}
+	if (*n == 0)
+	{
+		s[0] = '0';
+		*i = 1;
+	}
+	return (check + check2);
+}
+
+char	from_int(int n)
+{
+	char	c;
+
+	c = (char )((n % 10) + '0');
+	return (c);
+}
+
 char	*ft_itoa(int n)
 {
 	char	*s;
 	int		i;
 	int		check;
+	int		tmp;
 
-	s = (char *)malloc(sizeof(char) * count_n(n));
+	tmp = n;
+	s = (char *) malloc(sizeof(char) * count_n(n));
+	if (!s)
+		return (NULL);
 	i = 0;
-	check = 0;
-	if (n < 0)
+	check = checks(&tmp, s, &i);
+	while (tmp > 0)
 	{
-		s[count_n(n) - 1] = '-';
-		n *= -1;
-		check = 1;
-	}
-	while (n > 0)
-	{
-		s[i] = (char)((n % 10) + '0');
-		n /= 10;
+		s[i] = from_int(tmp % 10);
+		tmp /= 10;
 		i++;
 	}
+	if (check > 0)
+	{
+		if (check > 1)
+			s[0] = '8';
+		i++;
+	}
+	s[i] = '\0';
 	reverse(s);
-	if (check)
-		i++;
 	s[i] = '\0';
 	return (s);
 }
