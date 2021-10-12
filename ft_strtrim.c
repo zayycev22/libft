@@ -1,12 +1,4 @@
 #include "libft.h"
-int check_length(size_t len)
-{
-	if (len == 0)
-		return (1);
-	else
-		return (len);
-}
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t		i;

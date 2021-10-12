@@ -2,21 +2,27 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*cons;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
 	cons = (char *)malloc(sizeof(char) *(ft_strlen(s1) + ft_strlen(s2)));
 	if (!cons)
 		return (NULL);
-	while (cons && s1)
+	while (s1[j])
 	{
-		*cons = *s1;
-		cons++;
-		s1++;
+		cons[i] = s1[j];
+		i++;
+		j++;
 	}
-	while (cons && s2)
+	j = 0;
+	while (s2[j])
 	{
-		*cons = *s2;
-		cons++;
-		s2++;
+		cons[i] = s2[j];
+		i++;
+		j++;
 	}
+	cons[i] = '\0';
 	return (cons);
 }

@@ -1,5 +1,4 @@
 #include "libft.h"
-#include <stdio.h>
 int	count_n(int n)
 {
 	int	cnt;
@@ -59,12 +58,19 @@ int	checks(int *n, char *s, int *i)
 	return (check + check2);
 }
 
-char	from_int(int n)
+char	*get_full(int *tmp, char *s, int *i)
 {
-	char	c;
+	int	j;
 
-	c = (char )((n % 10) + '0');
-	return (c);
+	j = *i;
+	while (*tmp > 0)
+	{
+		s[j] = (char )((*tmp % 10) + '0');
+		*tmp /= 10;
+		j++;
+	}
+	*i = j;
+	return (s);
 }
 
 char	*ft_itoa(int n)
@@ -80,12 +86,7 @@ char	*ft_itoa(int n)
 		return (NULL);
 	i = 0;
 	check = checks(&tmp, s, &i);
-	while (tmp > 0)
-	{
-		s[i] = from_int(tmp % 10);
-		tmp /= 10;
-		i++;
-	}
+	s = get_full(&tmp, s, &i);
 	if (check > 0)
 	{
 		if (check > 1)

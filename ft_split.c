@@ -1,46 +1,80 @@
 #include "libft.h"
-int	count_dels(char const *s, char c)
+static int	unleah(char **str, int size)
 {
-	int	count;
+	while (size--)
+		free(str[size]);
+	return (-1);
+}
+
+static int	count_words(const char *str, char charset)
+{
+	int	i;
+	int	words;
+
+	words = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if ((str[i + 1] == charset || str[i + 1] == '\0') == 1
+			&& (str[i] == charset || str[i] == '\0') == 0)
+			words++;
+		i++;
+	}
+	return (words);
+}
+
+static void	write_word(char *dest, const char *from, char charset)
+{
 	int	i;
 
 	i = 0;
-	count = 0;
-	while (s[i])
+	while ((from[i] == charset || from[i] == '\0') == 0)
 	{
-		if (s[i] == c)
-			count++;
+		dest[i] = from[i];
 		i++;
 	}
-	if (count == 0)
-		count++;
-	return (count);
+	dest[i] = '\0';
 }
 
-char	**ft_split(char const *s, char c)
+static int	write_split(char **split, const char *str, char charset)
 {
-	char	**ans;
-	size_t	start;
-	size_t	end;
-	size_t	cnt;
+	int		i;
+	int		j;
+	int		word;
 
-	ans = (char **)malloc(sizeof(char *) * count_dels(s, c) + 1);
-	if (!ans)
-		return (NULL);
-	cnt = 0;
-	start = 0;
-	end = 0;
-	while (start <= ft_strlen(s))
+	word = 0;
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (s[start] == c || start == ft_strlen(s))
+		if ((str[i] == charset || str[i] == '\0') == 1)
+			i++;
+		else
 		{
-			ans[cnt] = ft_substr(s, end, start - end);
-			end = start;
-			end++;
-			cnt++;
+			j = 0;
+			while ((str[i + j] == charset || str[i + j] == '\0') == 0)
+				j++;
+			split[word] = (char *)malloc(sizeof(char) * (j + 1));
+			if (split[word] == NULL)
+				return (unleah(split, word - 1));
+			write_word(split[word], str + i, charset);
+			i += j;
+			word++;
 		}
-		start++;
 	}
-	ans[cnt] = NULL;
-	return (ans);
+	return (0);
+}
+
+char	**ft_split(const char *str, char c)
+{
+	char	**res;
+	int		words;
+
+	words = count_words(str, c);
+	res = (char **)malloc(sizeof(char *) * (words + 1));
+	if (res == NULL)
+		return (NULL);
+	res[words] = 0;
+	if (write_split(res, str, c) == -1)
+		return (NULL);
+	return (res);
 }
