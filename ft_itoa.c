@@ -1,5 +1,5 @@
 #include "libft.h"
-int	count_n(int n)
+static int	count_n(int n)
 {
 	int	cnt;
 
@@ -17,7 +17,7 @@ int	count_n(int n)
 	return (cnt);
 }
 
-void	reverse(char *a)
+static void	reverse(char *a)
 {
 	size_t	i;
 	char	c;
@@ -32,7 +32,7 @@ void	reverse(char *a)
 	}
 }
 
-int	checks(int *n, char *s, int *i)
+static int	checks(int *n, char *s, int *i)
 {
 	int		check;
 	int		check2;
@@ -58,7 +58,7 @@ int	checks(int *n, char *s, int *i)
 	return (check + check2);
 }
 
-char	*get_full(int *tmp, char *s, int *i)
+static char	*get_full(int *tmp, char *s, int *i)
 {
 	int	j;
 
