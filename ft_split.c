@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By:  <>                                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/17 15:32:23 by                   #+#    #+#             */
+/*   Updated: 2021/10/17 15:32:23 by                  ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "libft.h"
-static int	unleah(char **str, int size)
+
+static int	delete(char **str, int size)
 {
 	while (size--)
 		free(str[size]);
@@ -36,7 +48,7 @@ static void	write_word(char *dest, const char *from, char charset)
 	dest[i] = '\0';
 }
 
-static int	write_split(char **split, const char *str, char charset)
+static int	write_split(char **res, const char *str, char charset)
 {
 	int		i;
 	int		j;
@@ -53,10 +65,10 @@ static int	write_split(char **split, const char *str, char charset)
 			j = 0;
 			while ((str[i + j] == charset || str[i + j] == '\0') == 0)
 				j++;
-			split[word] = (char *)malloc(sizeof(char) * (j + 1));
-			if (split[word] == NULL)
-				return (unleah(split, word - 1));
-			write_word(split[word], str + i, charset);
+			res[word] = (char *)malloc(sizeof(char) * (j + 1));
+			if (res[word] == NULL)
+				return (delete(res, word - 1));
+			write_word(res[word], str + i, charset);
 			i += j;
 			word++;
 		}
