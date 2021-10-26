@@ -13,19 +13,24 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int		i;
-	char	*ans;
+	char			*mapped;
+	unsigned int	iter;
+	size_t			len;
 
-	if ((!s) || (!s && !f))
-		return (NULL);
-	ans = ft_strdup(s);
-	if (!ans)
-		return (NULL);
-	i = 0;
-	while (ans[i])
+	mapped = NULL;
+	if (s)
 	{
-		ans[i] = f(i, s[i]);
-		i++;
+		len = ft_strlen((const char *)s) + 1;
+		mapped = (char *)malloc(sizeof(char) * len);
+		if (!mapped)
+			return (NULL);
+		iter = 0;
+		while (s[iter] != '\0')
+		{
+			mapped[iter] = f(iter, (char)s[iter]);
+			iter++;
+		}
+		mapped[iter] = '\0';
 	}
-	return (ans);
+	return (mapped);
 }
