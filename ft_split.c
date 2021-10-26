@@ -15,6 +15,7 @@ static int	delete(char **str, int size)
 {
 	while (size--)
 		free(str[size]);
+	free(str);
 	return (-1);
 }
 

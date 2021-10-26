@@ -3,36 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  <>                                        +#+  +:+       +#+        */
+/*   By: larobbie <larobbie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/17 15:33:35 by                   #+#    #+#             */
-/*   Updated: 2021/10/17 15:33:35 by                  ###   ########.fr       */
+/*   Created: 2021/10/19 13:52:00 by                   #+#    #+#             */
+/*   Updated: 2021/10/26 20:25:12 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t		i;
-	size_t		start;
+	size_t	len;
+	char	*p;
 
-	if (!s1)
+	if (!s1 || !set)
 		return (NULL);
-	if (!set)
-		return (ft_strdup(s1));
-	i = 0;
-	while (ft_strchr(set, s1[i]))
-		i++;
-	if (i == ft_strlen(s1))
-	{
-		if (!(ft_strdup("")))
-			return (NULL);
-		else
-			return (ft_strdup(""));
-	}
-	start = i;
-	i = ft_strlen(s1) - 1;
-	while (ft_strchr(set, s1[i]))
-		i--;
-	return (ft_substr(s1, start, i - start + 1));
+	while (*s1 && ft_strchr(set, *s1))
+		s1++;
+	len = ft_strlen(s1);
+	while (len && ft_strchr(set, s1[len]))
+		len--;
+	p = (char *)malloc(++len + 1);
+	if (!p)
+		return (0);
+	ft_memcpy(p, s1, len);
+	p[len] = '\0';
+	return (p);
 }

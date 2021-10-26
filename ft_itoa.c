@@ -16,6 +16,8 @@ static int	count_n(int n)
 	int	cnt;
 
 	cnt = 0;
+	if (n == -2147483648)
+		return (11);
 	if (n < 1)
 	{
 		cnt++;
